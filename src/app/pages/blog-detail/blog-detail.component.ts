@@ -1,15 +1,50 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { switchMap } from 'rxjs';
+import { switchMap, map, catchError, of, startWith } from 'rxjs';
 import { BlogService } from '../../service/blog.service';
+import { BlogPost } from '../../models/blog-post';
+
+interface BlogDetailState {
+  post: BlogPost | null;
+  loading: boolean;
+  error: string | null;
+}
 
 @Component({
   selector: 'app-blog-detail',
   standalone: true,
   imports: [CommonModule, RouterLink],
   template: `
-    <div *ngIf="post$ | async as post" class="bg-white dark:bg-black min-h-screen pb-20">
+    <!-- Loading State -->
+    <div *ngIf="(state$ | async)?.loading" class="bg-white dark:bg-black min-h-screen flex items-center justify-center">
+      <div class="flex flex-col items-center">
+        <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
+        <p class="mt-4 text-gray-600 dark:text-gray-400">Loading article...</p>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="(state$ | async)?.error as error" class="bg-white dark:bg-black min-h-screen flex items-center justify-center px-6">
+      <div class="max-w-md">
+        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <svg class="h-8 w-8 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 class="text-xl font-semibold text-red-900 dark:text-red-100">Article Not Found</h3>
+          </div>
+          <p class="text-red-700 dark:text-red-300 mb-6">{{ error }}</p>
+          <a routerLink="/blog" class="inline-flex items-center text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-red-100 font-medium transition-colors">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Back to Articles
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div *ngIf="(state$ | async)?.post as post" class="bg-white dark:bg-black min-h-screen pb-20">
       
       <!-- Immersive Header with Image -->
       <div class="relative h-[60vh] w-full overflow-hidden">
@@ -80,7 +115,31 @@ export class BlogDetailComponent {
   private route = inject(ActivatedRoute);
   private blogService = inject(BlogService);
 
-  post$ = this.route.paramMap.pipe(
-    switchMap(params => this.blogService.getPost(Number(params.get('id'))))
+  state$ = this.route.paramMap.pipe(
+    switchMap(params => {
+      const id = Number(params.get('id'));
+      return this.blogService.getPost(id).pipe(
+        map(post => {
+          if (!post) {
+            return {
+              post: null,
+              loading: false,
+              error: 'The article you are looking for does not exist or has been removed.'
+            };
+          }
+          return { post, loading: false, error: null };
+        }),
+        startWith({ post: null, loading: true, error: null }),
+        catchError(error => {
+          console.error('Error loading blog post:', error);
+          return of({
+            post: null,
+            loading: false,
+            error: 'Failed to load the article. Please try again later.'
+          });
+        })
+      );
+    })
   );
 }
+
