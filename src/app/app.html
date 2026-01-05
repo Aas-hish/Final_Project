@@ -1,0 +1,27 @@
+<div class="app-shell">
+  <header class="topbar">
+    <div class="bar-inner">
+      <div class="brand-wrap">
+        <span class="brand-pill">SSR</span>
+        <a class="brand" routerLink="/">{{ title() }}</a>
+      </div>
+      <nav class="nav-links">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+        <a routerLink="/blog" routerLinkActive="active">Blog</a>
+        <a class="ghost" href="https://angular.dev/guide/ssr" target="_blank" rel="noreferrer">SSR Docs</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="content">
+    <div class="content-inner">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="bar-inner">
+      <p>Angular Universal SSR starter · Node.js Express renderer</p>
+    </div>
+  </footer>
+</div>
