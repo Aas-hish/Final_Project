@@ -6,22 +6,5 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/home/home.component').then((m) => m.HomeComponent),
   },
-  {
-    path: 'blog',
-    loadComponent: () =>
-      import('./pages/blog-list/blog-list.component').then(
-        (m) => m.BlogListComponent,
-      ),
-  },
-  {
-    path: 'blog/:id',
-    loadComponent: () =>
-      import('./pages/blog-detail/blog-detail.component').then(
-        (m) => m.BlogDetailComponent,
-      ),
-  },
-  {
-    path: '**',
-    redirectTo: '',
-  },
+  // Additional routes will be added in Level 2
 ];
