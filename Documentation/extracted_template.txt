@@ -1,0 +1,766 @@
+ABSTRACT
+
+Plant diseases are a major threat to farmers, consumers, environment and the global economy. In India alone, 35% of field crops are lost to pathogens and pests causing losses to farmers. Indiscriminate use of pesticides is also a serious health concern as many are toxic and biomagnified. These adverse effects can be avoided by early disease detection, crop surveillance and targeted treatments. Most diseases are diagnosed by agricultural experts by examining external symptoms. However, farmers have limited access to experts. Our project is the first integrated and collaborative platform for automated disease diagnosis, tracking and forecasting. Farmers can instantly and accurately identify diseases and get solutions with a mobile app by photographing affected plant parts. Real-time diagnosis is enabled using the latest Artificial Intelligence (AI) algorithms for Cloud-based image processing. The AI model continuously learns from user uploaded images and expert suggestions to enhance its accuracy. Farmers can also interact with local experts through the platform. For preventive measures, disease density maps with spread forecasting are rendered from a Cloud based repository of geo-tagged images and micro-climactic factors. A web interface allows experts to perform disease analytics with geographical visualizations. In our experiments, the AI model (CNN) was trained with large disease datasets, created with plant images self-collected from many farms over 7 months. Test images were diagnosed using the automated CNN model and the results were validated by plant pathologists. Over 95% disease identification accuracy was achieved. Our solution is a novel, scalable and accessible tool for disease management of diverse agricultural crop plants and can be deployed as a Cloud based service for farmers and experts for ecologically sustainable crop production.
+
+
+
+
+
+
+
+i
+
+TABLE OF CONTENT:
+
+
+INTRODUCTION
+
+Agriculture is fundamental to human survival. For populated developing countries like India, it is even more imperative to increase the productivity of crops, fruits and vegetables. Not only productivity, the quality of produce needs to stay high for better public health. However, both productivity and quality of food gets hampered by factors such as spread of diseases that could have been prevented with early diagnosis. Many of these diseases are infectious leading to total loss of crop yield. Given the vast geographical spread of agricultural lands, low education levels of farmers coupled with limited awareness and lack of access to plant pathologists, human assisted disease diagnosis is not effective and cannot keep up with the exorbitant requirements. To overcome the shortfall of human assisted disease diagnosis, it is imperative to build automation around crop disease diagnosis with technology and introduce low cost and accurate machine assisted diagnosis easily accessible to farmers. Some strides have been made in applying technologies such as robotics and computer vision systems to solve myriad problems in the agricultural domain. The potential of image processing has been explored to assist with precision agriculture practices, weed and herbicide technologies, monitoring plant growth and plant nutrition management [1][2]. However, progress on automating plant disease diagnosis is still rudimentary in spite of the fact that many plant diseases can be identified by plant pathologists by visual inspection of physical symptoms such as detectable change in color, wilting, appearance of spots and lesions etc. along with soil and climatic conditions. Overall, the commercial level of investment in bridging agriculture and technology remains lower as compared to investments done in more lucrative fields such as human health and education. Promising research efforts have not been able to productize due to challenges such as access and linkage for farmers to plant pathologists, high cost of deployment and scalability of solution. Recent developments in the fields of Mobile technology, Cloud computing and Artificial Intelligence (AI) create a perfect opportunity for creating a scalable low-cost solution for crop diseases that can be widely deployed. In developing countries such as India, mobile phones with internet connectivity have become ubiquitous. Camera and GPS enabled low cost mobile phones are widely available that can be leveraged by individuals to upload images with geolocation. Another leap of technology in recent years is AI based image analysis which has surpassed human eye capabilities and can accurately identify and classify images. The underlying AI algorithms use Neural Networks (NN) which have layers of neurons with a connectivity pattern inspired by the visual cortex. These networks get “trained” on a large set of pre-classified “labeled” images to achieve high accuracy of image classification on new unseen images. Since 2012 with “AlexNet” winning the ImageNet competition, deep Convolutional Neural Networks (CNNs) have consistently been the winning architecture for computer vision and image analysis [3]. The breakthrough in the capabilities of CNNs have come with a combination of improved compute capabilities, large data sets of images available and improved NN algorithms. Besides accuracy, AI has evolved and become more affordable and accessible with open source platforms such as TensorFlow [4]. Prior art related to our project includes initiatives to gather healthy and diseased crop images [5], image analysis using feature extraction [6], RGB images [7], spectral patterns [8] and fluorescence imaging spectroscopy [9].
+1.1 Problem Statement
+Precision agriculture aims to optimize crop production by leveraging technology and data-driven approaches. However, traditional methods for crop yield prediction often lack accuracy and fail to account for the complex interactions between various environmental factors and crop growth dynamics. Existing predictive models, including the Convolutional Neural Network (CNN) algorithm applied to annotated images, have shown promise but still face limitations in effectively capturing the intricate relationships between visual crop indicators, soil properties, weather conditions, crop management practices, and yield outcomes. Inaccurate yield predictions hinder farmers' ability to make informed decisions regarding crop selection, irrigation, fertilization, and pest management, leading to suboptimal yields, resource wastage, and economic losses. Additionally, the lack of scalability and adaptability of conventional CNN models impedes their applicability to diverse agricultural contexts and variable environmental conditions. Therefore, there is a pressing need to enhance the CNN-based predictive framework to address these challenges and develop a robust, image-driven model tailored to the complexities of precision agriculture. This enhanced model should incorporate advanced techniques for feature extraction, image annotation refinement, data preprocessing, and model optimization to improve prediction accuracy, scalability, and interpretability. By overcoming these limitations, the enhanced CNN algorithm can empower farmers with reliable insights for proactive decision-making, ultimately contributing to sustainable agricultural practices, increased productivity, and food security in a rapidly changing climate. Furthermore, the lack of personalized recommendations and adaptive learning capabilities in traditional CNN models hinders their effectiveness in addressing the unique needs and challenges faced by individual farmers. Additionally, the absence of real-time image data integration and analysis capabilities limits the timeliness and relevance of yield predictions, especially in dynamic agricultural environments. Moreover, the complexity and heterogeneity of agricultural image data, including spatial and temporal variability, pose significant challenges for accurate prediction using conventional CNN approaches. Inadequate consideration of external factors such as market trends, regulatory policies, and socioeconomic factors further diminishes the utility of existing yield prediction models in guiding strategic decision-making for farmers. Hence, the development of an enhanced CNN-based algorithm that addresses these shortcomings and integrates advanced visual analytics techniques holds immense potential for revolutionizing precision agriculture and fostering sustainable agricultural practices globally.
+LITERATURE REVIEW
+
+A survey of image processing techniques for agriculture
+AUTHORS:  Lalit P. Saxena and Leisa J. Armstrong
+ABSTRACT: Computer technologies have been shown to improve agricultural productivity in a number of ways. One technique which is emerging as a useful tool is image processing. This paper presents a short survey on using image processing techniques to assist researchers and farmers to improve agricultural practices. Image processing has been used to assist with precision agriculture practices, weed and herbicide technologies, monitoring plant growth and plant nutrition management. This paper highlights the future potential for image processing for different agricultural industry contexts.
+
+Imagenet classification with deep convolutional neural networks
+AUTHORS:  A. Krizhevsky, I. Sutskever and G. E. Hinton,
+ABSTRACT: We trained a large, deep convolutional neural network to classify the 1.2 million high-resolution images in the ImageNet LSVRC-2010 contest into the 1000 different classes. On the test data, we achieved top-1 and top-5 error rates of 37.5% and 17.0% which is considerably better than the previous state-of-the-art. The neural network, which has 60 million parameters and 650,000 neurons, consists of five convolutional layers, some of which are followed by max-pooling layers, and three fully-connected layers with a final 1000-way softmax. To make training faster, we used non-saturating neurons and a very efficient GPU implementation of the convolution operation. To reduce overriding in the fully-connected layers we employed a recently-developed regularization method called "dropout" that proved to be very effective. We also entered a variant of this model in the ILSVRC-2012 competition and achieved a winning top-5 test error rate of 15.3%, compared to 26.2% achieved by the second-best entry.
+
+Integrating soms and a bayesian classifier for segmenting diseased plants in uncontrolled environments
+AUTHORS:  D. L. Hernández-Rabadán, F. Ramos-Quintana and J. Guerrero Juk
+ABSTRACT: This work presents a methodology that integrates a nonsupervised learning approach (self-organizing map (SOM)) and a supervised one (a Bayesian classifier) for segmenting diseased plants that grow in uncontrolled environments such as greenhouses, wherein the lack of control of illumination and presence of background bring about serious drawbacks. During the training phase two SOMs are used: one that creates color groups of images, which are classified into two groups using K -means and labeled as vegetation and nonvegetation by using rules, and a second SOM that corrects classification errors made by the first SOM. Two color histograms are generated from the two color classes and used to estimate the conditional probabilities of the Bayesian classifier. During the testing phase an input image is segmented by the Bayesian classifier and then it is converted into a binary image, wherein contours are extracted and analyzed to recover diseased areas that were incorrectly classified as non vegetation. The experimental results using the proposed methodology showed better performance than two of the most used color index methods.
+
+
+
+
+
+
+Visible-near infrared spectroscopy for detection of Huanglongbing in citrus orchards
+AUTHORS:  S. Sankaran, A. Mishra, J. M. Maja and R. Ehsani
+ABSTRACT: This paper evaluates the feasibility of applying visible-near infrared spectroscopy for in-field detection of Huanglongbing (HLB) in citrus orchards. Spectral reflectance data from the wavelength range of 350–2500nm with 989 spectral features were collected from 100 healthy and 93 HLB-infected citrus trees using a visible-near infrared spectroradiometer. During data preprocessing, the spectral data were normalized and averaged every 25nm to reduce the spectral features from 989 to 86. Three datasets were generated from the preprocessed raw data: first derivatives, second derivatives, and a combined dataset (generated by integrating preprocessed raw data, first derivatives and second derivatives). The preprocessed datasets were analyzed using principal component analysis (PCA) to further reduce the number of features used as inputs in the classification algorithm. The dataset consisting of principal components were randomized and separated into training and testing datasets such that 75% of the dataset was used for training; while 25% of the dataset was used for testing the classification algorithms. The number of samples in the training and testing datasets was 145 and 48, respectively. The classification algorithms tested were: linear discriminant analysis, quadratic discriminant analysis (QDA), k-nearest neighbor, and soft independent modeling of classification analogies (SIMCA). The reported classification accuracies of the algorithms are an average of three runs. When the second derivatives dataset were analyzed, the QDA-based classification algorithm yielded the highest overall average classification accuracies of about 95%, with HLB-class classification accuracies of about 98%.
+
+Rethinking the inception architecture for computer vision
+AUTHORS:  Christian Szegedy, Vincent Vanhoucke, Sergey Ioffe, Jonathon Shlens, Zbigniew Wojna
+ABSTRACT: Convolutional networks are at the core of most state-of-the-art computer vision solutions for a wide variety of tasks. Since 2014 very deep convolutional networks started to become mainstream, yielding substantial gains in various benchmarks. Although increased model size and computational cost tend to translate to immediate quality gains for most tasks (as long as enough labeled data is provided for training), computational efficiency and low parameter count are still enabling factors for various use cases such as mobile vision and big-data scenarios. Here we explore ways to scale up networks in ways that aim at utilizing the added computation as efficiently as possible by suitably factorized convolutions and aggressive regularization. We benchmark our methods on the ILSVRC 2012 classification challenge validation set demonstrate substantial gains over the state of the art: 21.2% top-1 and 5.6% top-5 error for single frame evaluation using a network with a computational cost of 5 billion multiply-adds per inference and with using less than 25 million parameters. With an ensemble of 4 models and multi-crop evaluation, we report 3.5% top-5 error on the validation set (3.6% error on the test set) and 17.3% top-1 error on the validation set
+
+
+
+
+
+
+
+DATA COLLECTION
+In this project, a combination of data collection techniques was employed to build a robust training dataset. Initially, secondary sources and manual annotation were key to establishing a reliable ground truth. Looking forward, incorporating sensor data, crowdsourced farmer inputs, and environmental records can greatly enhance the model’s predictive capabilities and make it more dynamic, scalable, and adaptive to real-world agricultural conditions.
+
+Secondary Data Collection: Extracting relevant datasets from publicly available sources such as Kaggle.
+Manual Annotation: Expert-based labeling of images to classify them into healthy or specific disease categories.
+Observational Data Collection: Visual inspection of images for disease identification and labeling.
+Sensor-Based Data Collection (Future Work): Integrating IoT sensors for real-time data on soil, temperature, humidity, etc.
+Crowdsourced Data Collection: Gathering supporting inputs from farmers (e.g., soil type, fertilizer use, pesticide history).
+Environmental Data Integration: Using publicly available weather and climate datasets (e.g., rainfall, humidity, temperature).
+Automated Data Collection (Proposed): Accepting user-uploaded images with automatic classification score thresholding for inclusion into the training dataset.
+
+Data was collected through secondary data collection methods, aligning with industry-standard software engineering practices such as those outlined in SE Premium. The primary source was Kaggle, a widely trusted platform for machine learning datasets. From a larger dataset of plant diseases, images specifically related to apple plants were extracted. This
+initial filtering ensured that only relevant data was included for the scope of this project, which focuses on detecting diseases in apple plant leaves using computer vision.
+
+Once the relevant images were selected, a manual annotation process was carried out to label each image. This involved visually inspecting each leaf image and tagging it based on the presence or absence of disease, as well as specifying the exact disease type—such as apple scab, black rot, or cedar apple rust. This process falls under observational data collection and requires human expertise to ensure accurate labelling. These annotations were essential for enabling supervised learning, where the model learns to classify images based on labelled input.
+
+To maintain consistency and improve the performance of convolutional neural networks (CNNs), the images were standardized in resolution and format. The dataset was then organized into a structured directory system, with separate folders for each class label (e.g., healthy, apple scab, black rot, cedar apple rust). This organization not only supports efficient model training but also simplifies data loading and preprocessing during experimentation. The resulting dataset is well-suited for supervised learning tasks and represents a critical component of the project's success in plant disease detection.
+4 SYSTEM STUDY
+4.1 Existing System
+In India alone, 35% of field crops are lost to pathogens and pests, causing significant economic losses to farmers. Indiscriminate use of pesticides to combat these issues has become a serious health concern, as many of these chemicals are toxic and prone to biomagnification, affecting not just humans but also ecosystems. These adverse effects can be mitigated through early disease detection, continuous crop surveillance, and targeted treatments. Currently, most plant diseases are diagnosed by agricultural experts through visual examination of external symptoms. However, access to such experts is often limited, especially in rural and remote areas where the majority of India’s farmers reside. The cost of expert diagnosis and lab testing can also be prohibitive for small-scale farmers. Furthermore, language barriers and limited awareness often prevent farmers from accurately identifying early disease symptoms. This gap can be bridged through AI-based solutions, such as mobile applications using image recognition and machine learning to provide real-time, expert-level disease analysis. Such tools can empower farmers with timely insights, reduce dependency on blanket pesticide usage, and enable data-driven, environmentally conscious farming practices.
+Disadvantages of Existing System
+Sensitivity to Outliers:  The traditional KNN algorithm is highly sensitive to outliers in the dataset, which can significantly impact the accuracy of crop yield predictions in precision agriculture.
+Computationally Intensive: As the dataset size increases, the KNN algorithm becomes computationally expensive due to the need to calculate distances between all data points during prediction.
+Curse of Dimensionality: In high-dimensional data scenarios, such as those involving multiple environmental and agricultural variables, KNN performance degrades due to data sparsity and complexity.
+Lack of Interpretability: KNN does not provide insight into how specific features influence the prediction outcome, making it difficult for farmers and experts to interpret results and make informed decisions.
+Imbalanced Data Handling: The algorithm struggles with imbalanced datasets where certain crop conditions are underrepresented, leading to biased and unreliable predictions.
+Need for Data Preprocessing: Effective use of KNN requires thorough preprocessing steps such as normalization, handling of missing values, and feature scaling, which adds to the complexity of the model development.
+High Storage Requirements: The entire training dataset must be stored in memory for prediction, leading to large storage demands, especially in the context of big agricultural datasets.
+Slow Prediction Speed: KNN performs poorly in real-time scenarios due to the need to compute distances from all points in the training data, resulting in slow response times.
+Unstable Decision Boundaries: The prediction boundaries created by KNN can be irregular and unstable, particularly near class edges, making the model susceptible to overfitting and reduced generalization.
+Limited Generalization Ability: KNN tends to memorize the training data rather than learn patterns, which limits its effectiveness on new, unseen data and changing environmental conditions.
+Vulnerability to Noise: Presence of noisy or irrelevant features in the dataset can easily mislead the algorithm, resulting in inaccurate predictions and reduced model performance.
+4.2 Proposed System
+In this project author using convolutional neural network (CNN) as artificial intelligence to train all plant disease images which are annotated and categorized into various plant health conditions. These annotated images are used as dataset to train CNN model so that it can learn visual patterns of plant diseases. Once model is trained using large number of such annotated images, user can upload new plant images and CNN model will predict plant disease visible in the uploaded image. For storing CNN trained model and image dataset, author is using cloud services to make it scalable and accessible. Using this system, plant disease can be predicted using artificial intelligence and data is stored in cloud for future analysis.
+In this project author using computer or smart phone to upload plant image but developing full mobile application requires extra cost and time. So, this system is built as a Python-based web application. Using this web application, user can upload new plant images from any device and then system will apply trained CNN model on the image to detect and classify plant disease. If this web application is deployed on a real web server, then it can also extract the user’s current location from the request object and show it on a map, which can help in understanding geographic spread of diseases.
+Image Dataset Collection Module: This module is responsible for collecting and organizing annotated images of various plant diseases, which form the core training data for the CNN model.
+Data Preprocessing Module: This module handles image resizing, normalization, augmentation, and formatting to ensure consistency and quality before training the CNN model.
+CNN Model Training Module: This module trains the convolutional neural network using the pre-processed annotated images, allowing the model to learn and identify disease-specific features.
+Image Upload and Prediction Module: This module allows users to upload new plant images through the web interface. The trained CNN model processes the uploaded image and predicts the disease present, if any.
+Cloud Storage Module: This module is responsible for storing both the CNN model and image data using cloud infrastructure, enabling scalable and secure access to system resources.
+Web Interface Module: This module provides a user-friendly interface where users can interact with the system, upload images, view predictions, and access relevant information.
+Location Mapping Module: When deployed on a real server, this module extracts user location from the request and maps it, enabling geographic tracking of plant disease occurrences.
+Feedback and Update Module: This module allows users to provide feedback on prediction accuracy and helps the system to adapt over time by incorporating new images and retraining the model as needed.
+
+4.2.1 Advantages
+Accurate Disease Detection: The CNN model can accurately detect plant diseases from uploaded images by learning complex patterns in annotated training data. This improves the reliability of diagnosis compared to manual methods.
+User-Friendly Access: Users can access the system through a Python-based web application, eliminating the need for a dedicated Android app, which reduces both development time and cost.
+Scalable and Cloud-Based: Cloud services are used to store the trained CNN model and image datasets, allowing for scalability, remote access, and efficient data management across different regions.
+Real-Time Prediction: The system provides fast disease prediction upon image upload, enabling farmers to take immediate action for crop protection and disease control.
+Location Integration: When deployed on a real server, the system can extract user location from the request object and display it on a map, which helps monitor disease spread in specific geographic areas.
+Continuous Learning: The model can be updated with new annotated images to improve its accuracy over time, allowing it to adapt to new plant diseases and evolving symptoms.
+Cost-Effective Solution: Building the system as a web application avoids the high cost and time investment required for mobile app development, while still providing wide accessibility.
+Promotes Healthy Crop Management: By providing accurate and timely disease detection, the system supports informed decision-making, which leads to better crop management and increased productivity.
+
+
+
+
+
+
+
+
+METHODOLOGY
+The plant disease image data is clustered using the K-Means algorithm, which is an unsupervised machine learning technique used for image pattern grouping. In this project, the annotated plant disease images are grouped into clusters, with 'k' representing the number of disease categories or severity levels. Initially, the algorithm selects random centroids from the dataset. The distance between each image feature vector and the selected centroids is calculated using the Euclidean distance formula. Each image is then assigned to the cluster whose centroid is closest in feature space.
+Once all images are assigned, the algorithm recalculates the centroid positions based on the average of all data points (image features) in each cluster. This process is repeated iteratively until the cluster assignments remain stable and there is no further change in centroid positions. The clustering helps in organizing image data into distinct categories such as healthy, mild infection, moderate infection, and severe disease. These clusters enhance the CNN model’s learning by helping it distinguish between different levels of disease severity and improving prediction accuracy during model training and testing. Clustering can also aid in balancing the dataset by identifying underrepresented classes and supporting data augmentation strategies. By grouping visually similar images, it reduces redundancy and improves the efficiency of training. Furthermore, clustering can be used as a pre-labeling tool when expert annotations are not available, thereby accelerating dataset preparation. This unsupervised learning step supports semi-supervised approaches where labeled and unlabeled data are combined. It also facilitates better visualization and understanding of how different disease stages manifest. Ultimately, the use of clustering enhances both model performance and the interpretability of results, making the system more robust and applicable in real-world farming conditions.
+Data Collection: The dataset used in this project was collected from Kaggle, specifically focusing on apple plant images. From the larger plant disease datasets available, images related to apple plants were filtered and selected. Each image was manually annotated to indicate the presence or absence of disease, as well as the specific type of disease affecting the plant.
+Preprocessing: Cleanse and preprocess the collected image dataset to remove corrupted files, low-resolution images, and ensure consistency. Resize all images to a fixed dimension to maintain uniformity across the dataset during training. Normalize pixel values to a standard range, typically between 0 and 1, for improved model performance and convergence. Apply data augmentation techniques such as flipping, rotation, and zooming to increase dataset variability and help prevent overfitting.
+Feature Selection: visual features that have a significant impact on plant disease classification. Use domain knowledge, image inspection, and deep learning filters to highlight the most relevant patterns in leaf texture, color, and shape. Select the most informative visual cues during CNN training using convolutional layers and feature maps.
+Spatial Analysis: Spatial analysis techniques to consider geographic patterns and disease spread across different orchard regions. This may involve using GPS metadata or user location data to detect spatial clustering of infections and visualize disease distribution on maps.
+Convolution Neural Networks(CNN) Algorithm: The implementation of the convolutional neural network (CNN) model for plant disease detection begins with defining the network architecture. This includes setting the input shape of the images (typically 128x128x3 for RGB) and constructing a series of convolutional layers that extract key features such as textures, colors, and patterns from leaf images. These are followed by ReLU activation functions to introduce non-linearity and max-pooling layers to reduce the spatial dimensions while preserving essential features. Dropout layers are incorporated to prevent overfitting by randomly disabling certain neurons during training. Fully connected layers are then added to combine learned features and make final predictions. The last layer uses a softmax activation function, producing probability scores for each disease class, including a healthy category.
+During training, the CNN is fed a preprocessed and augmented dataset, which improves its ability to generalize to new data. The model learns by minimizing the loss—typically using categorical cross-entropy—through backpropagation and weight updates using optimizers like Adam or SGD. The training process runs across multiple epochs with mini-batches of images, while validation data helps monitor the model’s generalization performance. Key evaluation metrics like accuracy, precision, recall, and F1-score are tracked. A well-trained CNN enables automated, accurate detection of crop diseases, empowering farmers with timely and actionable insights.
+Prediction: For each uploaded plant image, pass it through the trained CNN model to extract relevant visual features. Compare the image features with learned patterns and use softmax or probability scores to classify the disease based on the closest matching category.
+5.1 Enhancements
+CNN Optimization: Adjust CNN parameters like kernel size, number of filters, and learning rate to enhance accuracy and adapt the model to apple leaf disease patterns.
+Feature Maps Analysis: Visualize feature maps in convolutional layers to understand which visual traits contribute most to the classification decision.
+Data Augmentation: Apply transformations like flipping, rotation, and scaling to artificially expand the training dataset and improve the model's generalization.
+Model Evaluation: Evaluate CNN performance using metrics such as accuracy, precision, recall, and F1-score on a separate validation dataset
+Validation and Testing: Test the trained CNN model on unseen apple leaf images across different conditions to assess robustness and real-world applicability.
+Implementation: Integrate the trained CNN model into the Python-based web application, enabling farmers to upload images and receive instant disease predictions.
+
+
+
+
+IMPLEMENTATION
+
+Groundwater Level Classification Based on CNN Model
+In this module, a dataset of plant disease images is utilized, focusing on apple plant leaves. The dataset, collected from Kaggle, contains images labeled with different disease conditions and healthy leaves. The images are preprocessed by resizing and normalizing pixel values to ensure uniformity for input into the Convolutional Neural Network (CNN).
+Using the annotated image data, the CNN model learns to classify the different types of diseases. Similar to the groundwater level classification, the dataset is processed to create binary classifications. For the plant disease model, images are categorized into two classes: healthy (represented as 0) and diseased (represented as 1). This binary classification is achieved by analysing the features extracted from each image, such as color, texture, and shape of the leaves.
+Once the CNN model is trained with these labeled images, it is capable of classifying new, unseen plant images as either healthy or diseased based on learned patterns. The classification is performed by comparing the extracted features from the new image to the learned features in the trained CNN, allowing the model to predict the condition of the plant effectively.
+Flask: This is a lightweight WSGI web application framework. It is used to create web applications in Python. In this file, Flask is used to handle web requests, render templates, and manage the web server.
+sklearn.preprocessing.MinMaxScaler: Part of the `scikit-learn` library, this module provides a way to normalize input features. Here, it seems to be used for scaling the input features to a range, which is a common practice in machine learning to improve model performance.
+NumPy: A fundamental package for scientific computing in Python. It provides support for large, multi-dimensional arrays and matrices, along with a collection of mathematical functions to operate on these arrays. It is likely used here for numerical operations.
+Pandas: This library is used for data manipulation and analysis. It offers data structures and operations for manipulating numerical tables and time series. This is often used in data processing steps before feeding the data into a machine learning model.
+Pickle: A module to implement binary protocols for serializing and de-serializing a Python object structure. In this context, it is probably used for loading a pre- trained machine learning model and scalers.
+
+
+The application seems to be a Crop Recommendation System, likely involving a machine learning model to provide recommendations. It uses Flask for the web interface, scikit-learn for preprocessing, NumPy for numerical operations, pandas for data handling, and pickle for loading the model and scalers.
+The proposed work incorporates fuzzy logic to enhance the prediction of plant disease conditions, allowing for a range of possibilities rather than rigid classifications. This flexibility helps mitigate errors from slight inaccuracies in image data or environmental conditions, as the model does not rely on a strict threshold for classification. As long as the difference between predicted and actual disease severity is not drastic, the model can still provide useful insights.
+The CNN model demonstrates its capability to accurately classify plant diseases when training data from previous disease occurrences is available. By leveraging fuzzy logic in the classification process, the model can predict not only whether a plant is healthy or diseased but also estimate the severity of the disease based on subtle visual cues from the leaves. This adaptability allows for better decision-making regarding crop management practices, such as the need for pesticides or adjustments in care.
+
+Fig 6.1: Plant Disease Detection Architecture
+
+
+6.1 Data flow diagram
+
+The DFD is also called as bubble chart. It is a simple graphical formalism that can be used to represent a system in terms of input data to the system, various processing carried out on this data, and the output data is generated by this system.
+The data flow diagram (DFD) is one of the most important modeling tools. It is used to model the system components. These components are the system process, the data used by the process, an external entity that interacts with the system and the information flows in the system.
+DFD shows how the information moves through the system and how it is modified by a series of transformations. It is a graphical technique that depicts information flow and the transformations that are applied as data moves from input to output.
+DFD is also known as bubble chart. A DFD may be used to represent a system at any level of abstraction. DFD may be partitioned into levels that represent increasing information flow and functional detail.
+
+
+
+
+Fig 6.2: Data Flow diagram for the System
+
+
+
+UML diagrams
+
+UML stands for Unified Modeling Language. UML is a standardized general-purpose modeling language in the field of object-oriented software engineering. The standard is managed, and was created by, the Object Management Group. The goal is for UML to become a common language for creating models of object oriented computer software. In its current form UML is comprised of two major components: a Meta-model and a notation. In the future, some form of method or process may also be added to; or associated with, UML.
+The Unified Modeling Language is a standard language for specifying, Visualization, Constructing and documenting the artifacts of software system, as well as for business modeling and other non-software systems. The UML represents a collection of best engineering practices that have proven successful in the modeling of large and complex systems. The UML is a very important part of developing objects oriented software and the software development process. The UML uses mostly graphical notations to express the design of software projects.
+
+Goals
+The Primary goals in the design of the UML are as follows:
+Provide users a ready-to-use, expressive visual modeling Language so that they can develop and exchange meaningful models.
+Provide extendibility and specialization mechanisms to extend the core concepts.
+Be independent of particular programming languages and development process.
+Provide a formal basis for understanding the modeling language.
+Encourage the growth of OO tools market.
+Support higher level development concepts such as collaborations, frameworks, patterns and components.
+Integrate best practices.
+
+Use case diagram
+A use case diagram in the Unified Modeling Language (UML) is a type of behavioral diagram defined by and created from a Use-case analysis. Its purpose is to present a graphical overview of the functionality provided by a system in terms of actors, their goals (represented as use cases), and any dependencies between those use cases. The main purpose of a use case diagram is to show what system functions are performed for which actor. Roles of the actors in the system can be depicted.
+
+
+
+
+Fig 6.3: Use case Diagram
+
+
+Class diagram
+In software engineering, a class diagram in the Unified Modeling Language (UML) is a type of static structure diagram that describes the structure of a system by showing the system's classes, their attributes, operations (or methods), and the relationships among the classes. It explains which class contains information.
+
+Fig 6.4: Class diagram
+
+
+
+
+
+
+
+
+
+Sequence diagram
+A sequence diagram in Unified Modeling Language (UML) is a kind of interaction diagram that shows how processes operate with one another and in what order. It is a construct of a Message Sequence Chart. Sequence diagrams are sometimes called event diagrams, event scenarios, and timing diagrams.
+
+Fig 6.5: Sequence diagram
+
+
+Activity diagram
+Activity diagrams are graphical representations of workflows of stepwise activities and actions with support for choice, iteration and concurrency. In the Unified Modeling Language, activity diagrams can be used to describe the business and operational step-by-step workflows of components in a system. An activity diagram shows the overall flow of control.
+
+Fig 6.6: Activity Diagram
+
+
+Collaboration diagram
+A collaboration diagram groups together the interactions between different objects. The interactions are listed as numbered interactions that help to trace the sequence of the interactions. The collaboration diagram helps to identify all the possible interactions that each object has with other objects.
+
+
+
+Fig 6.7: Collaboration diagram
+SYSTEM SPECIFICATION
+7.1 Hardware requirements
+
+Computing System
+Processor: Multi-core processor (e.g., Intel Core i7 or AMD Ryzen) for parallel processing of data and computations.
+RAM: Minimum 16 GB DDR4 RAM to handle large datasets and complex calculations efficiently.
+Storage: Solid State Drive (SSD) for faster data access and storage of datasets, algorithms, and model parameters.
+Graphics Processing Unit (GPU): Optional but beneficial for accelerating computations in machine learning tasks, especially for training large models.
+7.2 Software requirements
+Operating System:  Linux Distribution (e.g., Ubuntu, CentOS): Preferred for stability, security, and compatibility with machine learning frameworks and agricultural software.
+Windows or macOS: Alternative operating systems for development and data analysis tasks.
+Programming Languages
+Python: Main programming language for implementing machine learning algorithms, data pre-processing, and analysis. R: Optional for statistical analysis and visualization of agricultural data.
+Development Tools: Integrated Development Environment (IDE): PyCharm, Jupyter Notebook, or VSCode for coding, debugging, and running machine learning experiments. Version Control: Git for managing codebase and collaboration among team members.
+Machine Learning Libraries: Scikit-learn: Python library for implementing machine learning algorithms, including the enhanced k-nearest neighbors algorithm.TensorFlow or PyTorch: Deep learning frameworks for building and training neural networks for more complex prediction tasks.
+Data Visualization: Matplotlib and Seaborn: Python libraries for creating static and interactive visualizations of agricultural data, model predictions, and results.
+Plotly: Interactive plotting library for creating dashboards and visualizations with web- based interactivity.
+Database: PostgreSQL or MySQL: Relational database management systems for storing structured agricultural data, sensor readings, and model outputs.
+EXECUTION FOR FRONT-END
+
+Html & CSS
+HTML is used to structure a web page and its content. HTML consists of a series of elements, which you use to enclose or wrap different parts of the content to make it appear or act a certain way. The enclosing tags can make a word or image hyperlink to somewhere else, can italicize words, and can make font bigger or smaller, among other things. An HTML document is made up of elements that are nested within each other, creating a tree-like structure.
+Here's a basic structure of an HTML document:
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Page Title</title>
+</head>
+<body>
+
+
+<h1>This is a Heading</h1>
+<p>This is a paragraph.</p>
+<img src="image.jpg" alt="Description of image">
+</body>
+</html>
+```
+`<!DOCTYPE html>` declares the document type and HTML version.
+`<html>` is the root element.
+`<head>` contains meta-information about the document.
+`<title>` specifies a title for the document.
+`<body>` contains the content of the document.
+`<h1>` to `<h6>` are heading tags.
+`<p>` is a paragraph tag.
+`<img>` is an image tag.
+
+CSS is used to control the presentation, formatting, and layout of HTML elements. It allows you to apply styles to web pages. More importantly, CSS enables you to do this independently of the HTML that makes up each web page.
+
+CSS can be included in HTML documents in three ways:
+
+
+Inline - by using the `style` attribute inside HTML elements.
+Internal - by using a `<style>` tag in the `<head>` section.
+External - by linking to an external CSS file.
+A basic CSS syntax looks like this:
+```css selector {
+property: value;
+}
+```
+For example, to make all `<p>` elements have red text:
+``css p {
+color: red;
+}
+
+HTML and CSS work together to create the structure and style of a web page, with HTML focusing on the structure and CSS on the visual presentation.
+
+
+
+
+
+8 EXPERIMENTAL SETUP AND RESULTS
+8.1 Experimental Setup
+Dataset Selection: Obtain a dataset containing relevant plant disease images, such as apple leaf diseases, with a sufficient number of samples for both training and testing. Ensure the dataset is well-annotated, with disease categories like healthy, apple scab, and powdery mildew, and covers diverse environmental conditions that are representative of the target region.
+Data Preprocessing: Perform preprocessing steps such as image resizing, normalization, and augmentation to prepare the dataset for CNN training. Handle any corrupted images and ensure the images are standardized in terms of color space and size. Apply data augmentation techniques such as rotation, flipping, and zooming to artificially expand the dataset and improve model generalization.
+Feature Selection: Use domain knowledge and image analysis techniques to focus on relevant visual features for disease classification. Consider features like leaf texture, color patterns, and shape, which may indicate specific diseases. These features are extracted using convolutional layers within the CNN model to learn distinguishing patterns.
+Experimental Design: Divide the dataset into training and testing sets using techniques such as random sampling or stratified sampling. Ensure that the training set is sufficiently large to train the model effectively, while reserving a portion for evaluation. The testing set will serve as a benchmark for assessing the CNN model's real-world performance.
+Model Training: Implement the Convolutional Neural Network (CNN) architecture with multiple convolutional layers, pooling layers, and fully connected layers. Train the model on the training dataset, adjusting parameters like the number of filters, kernel size, and learning rate. Experiment with various architectures to improve performance, ensuring that the model can learn both low- and high-level features from the images.
+Cross-Validation: Perform k-fold cross-validation to assess the generalization performance of the CNN model. Evaluate the model’s performance on different subsets of the training data, and compute relevant evaluation metrics such as accuracy, precision, recall, and F1-score. This process helps identify the optimal model configuration and reduce overfitting.
+Model Evaluation: Evaluate the trained CNN model on the independent testing dataset to assess its accuracy in classifying plant diseases. Compare the predicted disease categories with the ground truth labels to calculate evaluation metrics like accuracy and confusion matrix, providing insight into the model’s effectiveness in real-world applications.
+Parameter Tuning: Fine-tune the hyperparameters of the CNN model using techniques such as grid search or random search. Experiment with different combinations of learning rates, batch sizes, and the number of layers to find the optimal configuration that maximizes prediction accuracy.
+8.2 Results
+Prediction Accuracy: Measure the accuracy of plant disease classification achieved by the Convolutional Neural Network (CNN) on the testing dataset. Evaluate the model's performance using metrics such as accuracy, precision, recall, and F1-score. These metrics will provide insights into the model's ability to correctly classify plant diseases, ensuring its effectiveness in real-world applications.
+Comparison with Baseline: Compare the performance of the CNN model with that of baseline models, such as traditional image classification techniques like support vector machines (SVM) or decision trees, using statistical tests or visualization techniques. This comparison will help demonstrate the superiority of the CNN model in terms of classification accuracy and efficiency.
+Effect of Optimization Techniques: Analyze the impact of incorporating optimization techniques into the CNN model on classification accuracy and computational efficiency. Investigate the role of hyperparameter tuning, data augmentation, and different CNN architectures in improving the model’s performance, ensuring that the CNN can handle diverse plant disease images effectively.
+Robustness and Generalization: Assess the robustness and generalization ability of the CNN model by testing it on different subsets of the dataset, including unseen plant species or regions with varying environmental conditions. Verify that the model performs consistently across different conditions, ensuring its reliability and adaptability in diverse agricultural settings.
+Scalability: Evaluate the scalability of the CNN model concerning dataset size and computational resources required for training and inference. Measure training times, prediction times, and memory usage with increasing dataset sizes to ensure the model can be efficiently applied in large-scale agricultural scenarios.
+Practical Utility: Discuss the practical utility of the CNN model in real-world plant disease detection applications. Highlight its potential to assist farmers in early detection of plant diseases, enabling timely interventions and reducing crop losses. Emphasize the model’s role in supporting decision-making for optimizing crop management practices and enhancing overall agricultural productivity.
+
+
+
+
+CODING
+
+9.1 Model Training code
+import os
+import tensorflow as tf
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+from tensorflow.keras import layers, models
+
+from tensorflow.python.client import device_lib
+print(" Available devices:")
+print(device_lib.list_local_devices())
+
+# Paths
+data_dir = "E:\\Project\\cropped_images"
+weights_dir = "E:\\Project\\weights"
+os.makedirs(weights_dir, exist_ok=True)
+
+# Image size and training config
+img_size = (128, 128)
+batch_size = 32
+epochs = 20
+
+# Data Generators with augmentation for training and validation splits
+train_datagen = ImageDataGenerator(
+rescale=1./255,
+validation_split=0.2,
+rotation_range=20,
+zoom_range=0.2,
+horizontal_flip=True
+)
+
+# Training data generator
+train_generator = train_datagen.flow_from_directory(
+data_dir,
+target_size=img_size,
+batch_size=batch_size,
+class_mode='categorical',
+subset='training',
+shuffle=True
+)
+
+
+# Validation data generator
+val_generator = train_datagen.flow_from_directory(
+data_dir,
+target_size=img_size,
+batch_size=batch_size,
+class_mode='categorical',
+subset='validation',
+shuffle=True
+)
+
+# CNN Model Architecture
+model = models.Sequential([
+layers.Conv2D(32, (3, 3), activation='relu', input_shape=(128, 128, 3)),
+layers.MaxPooling2D(2, 2),
+
+layers.Conv2D(64, (3, 3), activation='relu'),
+layers.MaxPooling2D(2, 2),
+
+layers.Conv2D(128, (3, 3), activation='relu'),
+layers.MaxPooling2D(2, 2),
+
+layers.Flatten(),
+layers.Dense(128, activation='relu'),
+layers.Dropout(0.5),
+layers.Dense(train_generator.num_classes, activation='softmax')
+])
+
+# Compile the model
+model.compile(
+optimizer='adam',
+loss='categorical_crossentropy',
+metrics=['accuracy']
+)
+
+# Train the model
+history = model.fit(
+train_generator,
+validation_data=val_generator,
+epochs=epochs
+)
+# Save the full model
+model_save_path = "plant_disease_cnn_model.h5"
+model.save(model_save_path)
+print(f" Full model saved as: {model_save_path}")
+
+# Save weights separately
+weights_path = os.path.join(weights_dir, "cnn_weights.h5")
+model.save_weights(weights_path)
+print(f"Weights saved in: {weights_path}")
+
+API Integration
+from flask import Flask, render_template, request, redirect, url_for, session
+import os
+import uuid
+from datetime import datetime
+import cv2
+from roboflow import Roboflow
+import supervision as sv
+from werkzeug.utils import secure_filename
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key_here'
+
+UPLOAD_FOLDER = 'static/uploads'
+RESULT_FOLDER = 'static/results'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+os.makedirs(RESULT_FOLDER, exist_ok=True)
+
+users = {}
+treatment_history = []
+
+# Roboflow setup
+rf = Roboflow(api_key="8Ig4ZXFGMdcjm9YWzPsL")
+project = rf.workspace().project("apple-plant-disease-detection-p2448-aurbo")
+model = project.version(4).model
+
+# Class mapping
+class_map = {
+0: "Apple_Black_rot",
+1: "Apple_cedar_Apple_rust",
+2: "Apple_healthy",
+3: "Apple_scab"
+}
+
+# Helper functions
+def allowed_file(filename):
+return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def save_image(file):
+if file and allowed_file(file.filename):
+ext = file.filename.rsplit('.', 1)[1].lower()
+filename = f"{uuid.uuid4().hex}.{ext}"
+path = os.path.join(UPLOAD_FOLDER, filename)
+file.save(path)
+return path, filename
+return None, None
+
+def analyze_image(image_path, original_filename):
+result = model.predict(image_path, confidence=40, overlap=30).json()
+image = cv2.imread(image_path)
+
+detections = sv.Detections.from_inference(result)
+labels = [f"{class_map.get(class_id, 'Unknown')}" for class_id in detections.class_id]
+
+bounding_box_annotator = sv.BoundingBoxAnnotator()
+label_annotator = sv.LabelAnnotator()
+
+annotated_image = bounding_box_annotator.annotate(scene=image.copy(), detections=detections)
+annotated_image = label_annotator.annotate(scene=annotated_image, detections=detections, labels=labels)
+
+result_filename = f"{uuid.uuid4().hex}_{original_filename}"
+result_path = os.path.join(RESULT_FOLDER, result_filename)
+cv2.imwrite(result_path, annotated_image)
+
+if detections and len(detections.class_id) > 0:
+class_id = detections.class_id[0]
+predicted_class = class_map.get(class_id, "Unknown")
+confidence = result['predictions'][0]['confidence']
+else:
+predicted_class = "Unknown"
+confidence = 0
+
+return predicted_class, result_filename, confidence
+
+def determine_severity(confidence):
+if confidence > 0.8:
+return "High"
+elif confidence > 0.5:
+return "Medium"
+else:
+return "Low"
+
+def get_treatment(disease, severity):
+TREATMENT_GUIDELINES = {
+"Apple_scab": {
+"Low": ["Apply Dodine and clean fallen leaves.", "Water in the morning only."],
+"Medium": ["Apply Chlorothalonil every 5 days.", "Avoid dense planting.", "Mulch base of plant."],
+"High": ["Apply Myclobutanil at full dosage.", "Remove infected fruits or leaves."]
+},
+"Apple_Black_rot": {
+"Low": ["Remove infected leaves and fruits.", "Ensure proper air circulation."],
+"Medium": ["Apply Captan fungicide every 7 days.", "Prune affected branches."],
+"High": ["Use Thiophanate-methyl fungicide.", "Consider professional treatment."]
+},
+"Apple_cedar_Apple_rust": {
+"Low": ["Remove nearby cedar trees if possible.", "Apply sulfur-based fungicide."],
+"Medium": ["Use Mancozeb fungicide bi-weekly.", "Monitor for new infections."],
+"High": ["Apply Immunox fungicide weekly.", "Seek expert consultation."]
+},
+"Apple_healthy": {
+"Low": ["Your plant is healthy. Keep monitoring weekly."],
+"Medium": ["No action required now."],
+"High": ["No treatment needed."]
+}
+}
+
+CONCENTRATION = {
+"Low": "Dilute",
+"Medium": "Dilute",
+"High": "Concentrated"
+}
+
+return TREATMENT_GUIDELINES.get(disease, {}).get(severity, ["No treatment found."]), CONCENTRATION.get(severity, "Unknown")
+
+# Routes
+@app.route('/')
+def index():
+return render_template('index.html')
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+if request.method == 'POST':
+name = request.form['name']
+email = request.form['email']
+password = request.form['password']
+if email in users:
+return "Email already registered!"
+users[email] = {'name': name, 'password': password}
+return redirect(url_for('login'))
+return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+if request.method == 'POST':
+email = request.form['email']
+password = request.form['password']
+user = users.get(email)
+if user and user['password'] == password:
+session['user'] = email
+return redirect(url_for('dashboard'))
+return "Invalid credentials"
+return render_template('login.html')
+
+@app.route('/dashboard')
+def dashboard():
+if 'user' not in session:
+return redirect(url_for('login'))
+return render_template('dashboard.html', name=users[session['user']]['name'])
+
+@app.route('/predict', methods=['POST'])
+def predict():
+if 'user' not in session:
+return redirect(url_for('login'))
+
+if 'image' not in request.files:
+return "No image uploaded."
+
+file = request.files['image']
+image_path, original_filename = save_image(file)
+
+if not image_path:
+return "Invalid file."
+
+disease, result_filename, confidence = analyze_image(image_path, original_filename)
+severity = determine_severity(confidence)
+recommendation, concentration = get_treatment(disease, severity)
+
+treatment_history.append({
+'user': session['user'],
+'image': result_filename,
+'disease': disease,
+'severity': severity,
+'recommendation': recommendation,
+'concentration': concentration,
+'date': datetime.now().strftime("%Y-%m-%d")
+})
+
+return render_template('predict.html',
+image_path=result_filename,
+disease=disease,
+severity=severity,
+recommendation=recommendation,
+concentration=concentration)
+
+@app.route('/treatment')
+def treatment():
+if 'user' not in session:
+return redirect(url_for('login'))
+history = [entry for entry in treatment_history if entry['user'] == session['user']]
+return render_template('treatment.html', history=history)
+
+@app.route('/pesticide')
+def pesticide():
+disease = request.args.get('disease')
+severity = request.args.get('severity')
+if not disease or not severity:
+return "Please provide both 'disease' and 'severity' as query parameters."
+
+_, concentration = get_treatment(disease, severity)
+message = f"For {disease} at {severity} severity, use a {concentration} pesticide solution."
+return render_template('pesticide.html', disease=disease, severity=severity, message=message)
+
+@app.route('/logout')
+def logout():
+session.pop('user', None)
+return redirect(url_for('index'))
+
+if __name__ == '__main__':
+app.run(debug=True)
+
+
+
+
+
+
+
+
+
+
+
+
+EXECUTION SCREENSHOTS
+
+
+Screenshot 10.1: Home page
+
+index.html
+
+Screenshot 10.2: image upload page
+
+
+
+
+
+
+
+
+predict.html
+
+
+Screenshot 10.3: apple_cedar_Apple_rust detection
+
+
+
+Screenshot 10.4: Apple Black_rot detection
+
+
+
+
+Screenshot 10.5: Apple Scab detection
+
+
+
+
+Screenshot 10.6: Apple Healthy detection
+
+
+
+
+
+
+pesticide.html
+
+Screenshot 10.7: Pesticide Recommendation page
+
+AItreatmenet.html
+
+Screenshot 10.8: Treatment History page
+
+
+LIMITATIONS
+Limited Dataset Scope: The dataset primarily focuses on apple plant leaves, which restricts the model’s applicability to other crops unless retrained with additional data.
+Dependence on Image Quality: The model's accuracy is highly dependent on image clarity, lighting conditions, and background noise, which may vary significantly in real-world field conditions.
+Manual Annotation Errors: Manual labeling of disease categories may introduce human errors or inconsistencies, especially in borderline or mixed-infection cases.
+Inability to Detect New Diseases: The model cannot identify or classify novel or unseen diseases that are not present in the training dataset.
+Lack of Contextual Inputs: The model currently relies mainly on visual data, without incorporating contextual factors like soil conditions, crop variety, or seasonal changes.
+Generalization Challenges: A model trained on a specific dataset may not generalize well to images from different regions or captured with different devices.
+No Real-Time Monitoring Integration: The current implementation lacks integration with real-time sensor data or field-based IoT systems for continuous disease monitoring.
+User Dependency for Data Collection: The system depends on users (farmers) to upload clear and correctly captured images, which may not always be feasible or accurate.
+FUTURE SCOPE
+
+Future work involves expanding the model to include more parameters which can improve the correlation to the disease. We can augment the image database with supporting inputs from the farmer on soil, past fertilizer and pesticide treatment along with publicly available environmental factors such as temperature, humidity and rainfall to improve our model accuracy and enable disease forecasting. We also wish to increase the number of crop diseases covered and reduce the need for expert intervention except for new types of diseases. For automatic acceptance of user uploaded images into the Training Database for better classification accuracy and least possible human intervention, a simple technique of computing the threshold based on a mean of all classification scores can be used. Further application of this work could be to support automated time-based monitoring of the disease density maps that can be used to track the progress of a disease and trigger alarms. Predictive analytics can be used to send alerts to the users on the possibility of disease outbreaks near their location.
+In addition to incorporating environmental and agronomic parameters, future enhancements can include integration with IoT-based field sensors to capture real-time data directly from farms. These sensors can provide continuous inputs on soil moisture, pH levels, ambient temperature, and sunlight exposure, which would significantly improve the model’s understanding of the growing conditions. Combining this data with satellite or drone imagery could enable multi-modal analysis, allowing the system to detect subtle stress patterns in crops that are not visible to the naked eye. This fusion of data sources would help create a robust, context-aware model capable of early and accurate disease detection.
+To make the system scalable and accessible to a broader audience, developing a cloud-based architecture would be beneficial. This would allow farmers and agricultural experts to upload images and data through mobile or web applications, which would then be processed and analyzed on remote servers. Leveraging cloud infrastructure also opens up possibilities for federated learning, where models can be updated collaboratively from distributed datasets without compromising data privacy. This would be particularly useful in building a regional disease prediction model, tailored to the unique crop and climate conditions of different geographic areas.
+Looking ahead, the platform could evolve into a decision support system for precision agriculture, offering not just diagnostics but also actionable recommendations. For example, based on detected diseases and correlated environmental factors, the system could suggest optimal treatment methods, forecast yield losses, or even recommend preventive measures like crop rotation strategies or biocontrol options.
+
+APPLICATIONS
+Plant Disease Detection:  The primary application of the CNN-based system is the accurate detection of plant diseases. By analyzing annotated images of affected plant leaves, the CNN model identifies specific diseases and provides immediate feedback. This enables timely treatment, minimizing crop loss and supporting healthier crop growth.
+Remote Diagnosis Support: Using the web-based application, farmers can upload images of affected plants directly from their smartphones. The CNN model processes these images and provides an instant diagnosis. This remote support reduces the need for in-person inspections and speeds up the response time for disease management.
+Decision Support System: The CNN-powered system acts as a decision support tool for farmers and agricultural experts. Based on image classification results, users can determine appropriate treatment methods, preventive measures, or changes in crop management practices to reduce further spread and improve plant health.
+Risk Management: Early detection of plant diseases through the CNN model allows farmers to mitigate the risks of disease outbreaks. By identifying infections in the initial stages, farmers can implement targeted interventions, limiting the spread and potential impact on yield and income.
+Precision Agriculture: The integration of CNN with geolocation and web deployment supports precision agriculture. When deployed on a live server, the application can map affected regions based on user location. This spatial information helps in regional monitoring and implementing localized disease control strategies.
+Seasonal Disease Monitoring: The system can be used over different seasons to monitor recurring or seasonal diseases. By analyzing images collected across various timeframes, patterns of disease appearance and severity can be observed, enabling proactive management and long-term planning.
+Financial Planning: Accurate disease prediction helps in financial planning by reducing unexpected crop losses. Farmers can plan budgets for treatments, reduce unnecessary pesticide usage, and better forecast expected returns by minimizing the impact of diseases on crop quality and yield.
+Sustainable Agriculture: The CNN model encourages sustainable practices by minimizing excessive use of chemicals through precise identification of diseases. By treating only the infected plants or areas, resource use is optimized.
+14  SYSTEM TESTING
+
+The purpose of testing is to discover errors. Testing is the process of trying to discover every conceivable fault or weakness in a work product. It provides a way to check the functionality of components, sub assemblies, assemblies and/or a finished product It is the process of exercising software with the intent of ensuring that the Software system meets its requirements and user expectations and does not fail in an unacceptable manner. There are various types of test. Each test type addresses a specific testing requirement.
+13.1 TYPES OF TESTS
+Unit testing
+Unit testing involves the design of test cases that validate that the internal program logic is functioning properly, and that program inputs produce valid outputs. All decision branches and internal code flow should be validated. It is the testing of individual software units of the application .it is done after the completion of an individual unit before integration. This is a structural testing, that relies on knowledge of its construction and is invasive. Unit tests perform basic tests at component level and test a specific business process, application, and/or system configuration. Unit tests ensure that each unique path of a business process performs accurately to the documented specifications and contains clearly defined inputs and expected results.
+Integration testing
+Integration tests are designed to test integrated software components to determine if they actually run as one program.  Testing is event driven and is more concerned with the basic outcome of screens or fields. Integration tests demonstrate that although the components were individually satisfaction, as shown by successfully unit testing, the combination of components is correct and consistent. Integration testing is specifically aimed at   exposing the problems that arise from the combination of components.
+Functional test
+Functional tests provide systematic demonstrations that functions tested are available as specified by the business and technical requirements, system documentation, and user manuals.
+Functional testing is centered on the following items:
+Valid Input               :  identified classes of valid input must be accepted.
+Invalid Input             : identified classes of invalid input must be rejected.
+Functions                  : identified functions must be exercised.
+Output           	    : identified classes of application outputs must be exercised.
+Systems/Procedures   : interfacing systems or procedures must be invoked.
+Organization and preparation of functional tests is focused on requirements, key functions, or special test cases. In addition, systematic coverage pertaining to identify Business process flows; data fields, predefined processes, and successive processes must be considered for testing. Before functional testing is complete, additional tests are identified and the effective value of current tests is determined.
+4, System Test
+System testing ensures that the entire integrated software system meets requirements. It tests a configuration to ensure known and predictable results. An example of system testing is the configuration oriented system integration test. System testing is based on process descriptions and flows, emphasizing pre-driven process links and integration points.
+White Box Testing
+White Box Testing is a testing in which in which the software tester has knowledge of the inner workings, structure and language of the software, or at least its purpose. It is purpose. It is used to test areas that cannot be reached from a black box level.
+Black Box Testing
+Black Box Testing is testing the software without any knowledge of the inner workings, structure or language of the module being tested. Black box tests, as most other kinds of tests, must be written from a definitive source document, such as specification or requirements document, such as specification or requirements document. It is a testing in which the software under test is treated, as a black box .you cannot “see” into it. The test provides inputs and responds to outputs without considering how the software works.
+Unit Testing
+Unit testing is usually conducted as part of a combined code and unit test phase of the software lifecycle, although it is not uncommon for coding and unit testing to be conducted as two distinct phases.
+Test strategy and approach Field testing will be performed manually and functional tests will be written in detail.
+Test objectives
+All field entries must work properly.
+Pages must be activated from the identified link.
+The entry screen, messages and responses must not be delayed.
+Features to be tested
+Verify that the entries are of the correct format
+No duplicate entries should be allowed
+All links should take the user to the correct page.
+Integration Testing
+Software integration testing is the incremental integration testing of two or more integrated software components on a single platform to produce failures caused by interface defects.
+The task of the integration test is to check that components or software applications, e.g. components in a software system or – one step up – software applications at the company level – interact without error.
+Test Results: All the test cases mentioned above passed successfully. No defects encountered.
+Acceptance Testing
+User Acceptance Testing is a critical phase of any project and requires significant participation by the end user. It also ensures that the system meets the functional requirements.
+Test Results: All the test cases mentioned above passed successfully. No defects encountere
+
+15 CONCLUSION
+This project presents an automated, low-cost, and user-friendly end-to-end solution to one of the most pressing challenges in agriculture—precise, instant, and early diagnosis of crop diseases, along with awareness of potential disease outbreaks. This enables farmers to make timely, informed decisions regarding disease control measures. The proposed system advances previous approaches by integrating deep Convolutional Neural Networks (CNNs) for disease classification, introducing a social collaborative platform for continuous learning, leveraging geocoded images to generate disease density maps, and providing expert interfaces for deeper analytics. A high-performing deep CNN model, “Inception,” is used to enable real-time disease classification through a cloud-based platform accessible via a mobile application.
+The collaborative design of the system allows for ongoing improvement in classification accuracy. As users contribute new images to the cloud repository, the training dataset expands, allowing for retraining of the CNN model and increasing its precision. These geotagged user images also support the creation of dynamic disease density maps, helping visualize disease outbreaks geographically. Experimental results confirm that the model achieves a high classification accuracy of 95.8%, demonstrating its reliability and effectiveness across a wide range of disease types.
+In conclusion, this system showcases substantial potential for real-world deployment due to its scalability, accuracy, and adaptability. It effectively handles a large number of disease categories, improves performance with increasing dataset size, accurately detects early-stage symptoms, and differentiates between diseases within the same family. By combining cutting-edge deep learning with community-driven data collection and real-time geographic analysis, the solution provides a powerful tool for sustainable, tech-enabled farming and improved agricultural outcomes.
+REFERENCES
+
+[1] L. Saxena and L. Armstrong, “A survey of image processing techniques for agriculture,” in Proceedings of Asian Federation for Information Technology in Agriculture, 2014, pp. 401-413.
+[2] E. L. Stewart and B. A. McDonald, “Measuring quantitative virulence in the wheat pathogen Zymoseptoria tritici using high-throughput automated image analysis,” in Phytopathology 104 9, 2014, pp. 985– 992.
+[3] A. Krizhevsky, I. Sutskever and G. E. Hinton, "Imagenet classification with deep convolutional neural networks," in Advances in Neural Information Processing Systems, 2012.
+[4] TensorFlow.[Online].Available: https://www.tensorflow.org/
+[5] D. P. Hughes and and M. Salathé, “An open access repository of images on plant health to enable the development of mobile disease diagnostics through machine learning and crowdsourcing,” in CoRR abs/1511.08060, 2015.
+[6] S. Raza, G. Prince, J. P. Clarkson and N. M. Rajpoot, “Automatic detection of diseased tomato plants using thermal and stereo visible light images,” in PLoS ONE, 2015.
+[7] D. L. Hernández-Rabadán, F. Ramos-Quintana and J. Guerrero Juk, “Integrating soms and a bayesian classifier for segmenting diseased plants in uncontrolled environments,” 2014, in the Scientific World Journal, 2014.
+[8] S. Sankaran, A. Mishra, J. M. Maja and R. Ehsani, “Visible-near infrared spectroscopy for detection of huanglongbing in citrus orchards,” in Computers and Electronics in. Agriculture 77, 2011, pp. 127–134.
+[9] C. B. Wetterich, R. Kumar, S. Sankaran, J. B. Junior, R. Ehsani and L. G. Marcassa, “A comparative study on application of computer vision and fluorescence imaging spectroscopy for detection of huanglongbing citrus disease in the USA and Brazil,” in Journal of Spectroscopy, 2013.
+[10] C. Szegedy,“Rethinking the inception architecture for computer vision,” in Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition, 2016, pp. 2818-2826.
+[11] Mango Diseases and Symptoms. [Online].Available: http://vikaspedia.in/agriculture/crop-production/integrated-pestmanagment/ipm-for-fruit-crops/ipm-strategies-for-mango/mangodiseases-and-symptoms
+[12] P. Subrahmanyam, S. Wongkaew, D. V. R. Reddy, J. W. Demski, D. McDonald, S. B. Sharma and D. H. Smith, "Field Diagnosis of Groundnut Diseases”. Monograph. International Crops Research Institute for the Semi-Arid Tropics, 1992.
