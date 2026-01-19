@@ -117,6 +117,17 @@ export class BlogDetailComponent {
               error: 'The article you are looking for does not exist or has been removed.'
             };
           }
+          
+          // Set SEO metadata for the blog post
+          this.seoService.setSEOData({
+            title: post.title,
+            description: post.body.substring(0, 160).replace(/<[^>]*>/g, ''), // Strip HTML tags
+            keywords: `${post.category}, blog, article`,
+            image: post.imageUrl,
+            type: 'article',
+            author: post.author
+          });
+          
           return { post, loading: false, error: null };
         }),
         startWith({ post: null, loading: true, error: null }),
