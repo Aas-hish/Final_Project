@@ -1,8 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common'; // Optimize Images
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { switchMap, map, catchError, of, startWith } from 'rxjs';
 import { BlogService } from '../../service/blog.service';
+import { SeoService } from '../../service/seo.service';
 import { BlogPost } from '../../models/blog-post';
 
 interface BlogDetailState {
@@ -14,7 +15,7 @@ interface BlogDetailState {
 @Component({
   selector: 'app-blog-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, NgOptimizedImage],
   template: `
     <!-- Loading State -->
     <div *ngIf="(state$ | async)?.loading" class="bg-white dark:bg-black min-h-screen flex items-center justify-center">
@@ -49,7 +50,7 @@ interface BlogDetailState {
       <!-- Immersive Header with Image -->
       <div class="relative h-[60vh] w-full overflow-hidden">
         <div class="absolute inset-0 bg-gray-900/50 z-10"></div>
-        <img [src]="post.imageUrl" class="absolute inset-0 h-full w-full object-cover transform scale-105 motion-safe:animate-subtle-zoom" alt="">
+        <img [ngSrc]="post.imageUrl" fill priority class="absolute inset-0 h-full w-full object-cover transform scale-105 motion-safe:animate-subtle-zoom" alt="">
         
         <div class="absolute inset-0 z-20 flex flex-col justify-end pb-20 px-6 sm:px-12 lg:px-24 max-w-7xl mx-auto">
           <a routerLink="/blog" class="inline-flex items-center text-gray-300 hover:text-white mb-6 transition-colors font-medium text-sm">
@@ -64,28 +65,16 @@ interface BlogDetailState {
 
       <!-- Content -->
       <article class="relative z-30 -mt-10 mx-auto max-w-4xl bg-white dark:bg-zinc-900 rounded-t-3xl p-8 sm:p-12 lg:p-16 shadow-2xl">
-        <div class="prose prose-lg prose-indigo dark:prose-invert mx-auto">
-          <p class="lead text-xl text-gray-700 dark:text-gray-300 mb-8 border-l-4 border-primary pl-6 italic">
-            Overview of {{ post.title }}
-          </p>
-          <div class="text-gray-600 dark:text-gray-300 leading-relaxed space-y-6">
-             <!-- Simulating multiple paragraphs for the body -->
-             <p>{{ post.body }}</p>
-             <p>
-               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-               Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-             </p>
-             <h3 class="text-2xl font-bold text-gray-900 dark:text-white mt-8 mb-4">Key Takeaways</h3>
-             <ul class="list-disc pl-5 space-y-2">
-               <li>Performance is critical for user retention.</li>
-               <li>Server-Side Rendering improves perceived load time.</li>
-               <li>Interactive UIs create better engagement.</li>
-             </ul>
-             <p class="mt-6">
-               Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-               Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-             </p>
-          </div>
+        <div class="prose prose-lg prose-indigo dark:prose-invert max-w-none mx-auto
+          prose-headings:font-display prose-headings:font-bold prose-h2:text-3xl prose-h2:mt-12 prose-h3:text-2xl 
+          prose-p:leading-relaxed prose-p:text-lg prose-p:text-gray-700 dark:prose-p:text-gray-300
+          prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+          prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-gray-50 dark:prose-blockquote:bg-gray-800/50 prose-blockquote:py-2 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic
+          prose-code:text-pink-600 dark:prose-code:text-pink-400 prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded-md prose-code:before:content-none prose-code:after:content-none
+          prose-pre:bg-gray-900 prose-pre:text-gray-100 prose-pre:rounded-xl prose-pre:shadow-lg
+          prose-img:rounded-xl prose-img:shadow-md prose-img:w-full">
+          
+          <div [innerHTML]="post.body"></div>
         </div>
         
         <div class="mt-16 pt-8 border-t border-gray-200 dark:border-gray-800 flex justify-between items-center">
@@ -114,6 +103,7 @@ interface BlogDetailState {
 export class BlogDetailComponent {
   private route = inject(ActivatedRoute);
   private blogService = inject(BlogService);
+  private seoService = inject(SeoService);
 
   state$ = this.route.paramMap.pipe(
     switchMap(params => {

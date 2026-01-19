@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { SeoService } from '../../service/seo.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { AboutComponent } from '../about/about.component';
@@ -44,4 +45,14 @@ import { FeaturesComponent } from '../features/features.component';
     <app-about></app-about>
   `
 })
-export class HomeComponent { }
+export class HomeComponent {
+  private seoService = inject(SeoService);
+
+  ngOnInit(): void {
+    this.seoService.setSEOData({
+      title: 'Home',
+      description: 'A modern Angular SSR starter template featuring server-side rendering, Express backend, and Tailwind CSS styling.',
+      keywords: 'Angular, SSR, Universal, Tailwind CSS, Starter'
+    });
+  }
+}

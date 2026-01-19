@@ -9,4 +9,8 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'blog', component: BlogListComponent },
   { path: 'blog/:id', component: BlogDetailComponent },
+  { 
+    path: '**', 
+    loadComponent: () => import('./pages/not-found/not-found').then(m => m.NotFound) 
+  },
 ];
