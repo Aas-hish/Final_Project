@@ -3,6 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { BlogService } from '../../service/blog.service';
 import { TiltDirective } from '../../directives/tilt.directive';
+import { catchError, map, of, startWith } from 'rxjs';
+
+interface BlogListState {
+  posts: any[];
+  loading: boolean;
+  error: string | null;
+}
 
 @Component({
   selector: 'app-blog-list',
@@ -32,8 +39,27 @@ import { TiltDirective } from '../../directives/tilt.directive';
       <div class="mx-auto max-w-5xl px-6 lg:px-8 py-24">
         <div class="flex flex-col gap-y-12">
           
+          <!-- Loading State -->
+          <div *ngIf="(state$ | async)?.loading" class="flex flex-col items-center justify-center py-24">
+            <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-primary"></div>
+            <p class="mt-4 text-gray-600 dark:text-gray-400">Loading articles...</p>
+          </div>
+
+          <!-- Error State -->
+          <div *ngIf="(state$ | async)?.error as error" class="flex flex-col items-center justify-center py-24">
+            <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 max-w-md">
+              <div class="flex items-center gap-3 mb-2">
+                <svg class="h-6 w-6 text-red-600 dark:text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 class="text-lg font-semibold text-red-900 dark:text-red-100">Error Loading Articles</h3>
+              </div>
+              <p class="text-red-700 dark:text-red-300">{{ error }}</p>
+            </div>
+          </div>
+
           <!-- List Item -->
-          <article *ngFor="let post of posts$ | async" 
+          <article *ngFor="let post of (state$ | async)?.posts" 
                    appTilt 
                    class="flex flex-col md:flex-row gap-8 bg-white dark:bg-zinc-900 rounded-2xl p-6 shadow-xl ring-1 ring-gray-900/5 dark:ring-white/10 transition-all duration-300 cursor-pointer overflow-hidden group hover:shadow-2xl"
                    [routerLink]="['/blog', post.id]">
@@ -91,5 +117,18 @@ import { TiltDirective } from '../../directives/tilt.directive';
 })
 export class BlogListComponent {
   private blogService = inject(BlogService);
-  posts$ = this.blogService.getPosts();
+
+  state$ = this.blogService.getPosts().pipe(
+    map(posts => ({ posts, loading: false, error: null })),
+    startWith({ posts: [], loading: true, error: null }),
+    catchError(error => {
+      console.error('Error loading blog posts:', error);
+      return of({
+        posts: [],
+        loading: false,
+        error: 'Failed to load articles. Please try again later.'
+      });
+    })
+  );
 }
+
