@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { SeoService } from '../../service/seo.service';
 
 @Component({
     selector: 'app-about',
@@ -17,4 +18,14 @@ import { Component } from '@angular/core';
     </div>
   `
 })
-export class AboutComponent { }
+export class AboutComponent {
+  private seoService = inject(SeoService);
+
+  ngOnInit(): void {
+    this.seoService.setSEOData({
+      title: 'About Us',
+      description: 'We are dedicated to building the fastest, most accessible web applications using modern technologies like Angular Universal and Tailwind CSS.',
+      keywords: 'about, team, Angular Universal, Tailwind CSS, web development'
+    });
+  }
+}

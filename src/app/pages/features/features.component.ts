@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SeoService } from '../../service/seo.service';
 
 @Component({
     selector: 'app-features',
@@ -33,6 +34,16 @@ import { CommonModule } from '@angular/common';
   `
 })
 export class FeaturesComponent {
+    private seoService = inject(SeoService);
+
+    ngOnInit(): void {
+      this.seoService.setSEOData({
+        title: 'Features',
+        description: 'Our platform provides a comprehensive suite of features including Server-Side Rendering, Modern Styling, Type Safety, and Optimization.',
+        keywords: 'features, SSR, Angular Universal, Tailwind CSS, TypeScript, optimization'
+      });
+    }
+
     features = [
         {
             name: 'Server-Side Rendering',

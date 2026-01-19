@@ -122,6 +122,16 @@ interface BlogListState {
 })
 export class BlogListComponent {
   private blogService = inject(BlogService);
+  private seoService = inject(SeoService);
+
+  ngOnInit(): void {
+    this.seoService.setSEOData({
+      title: 'Blog Articles',
+      description: 'Explore the cutting-edge of web development, server-side rendering, and performance optimization.',
+      keywords: 'blog, articles, web development, SSR, Angular',
+      type: 'website'
+    });
+  }
 
   state$ = this.blogService.getPosts().pipe(
     map(posts => ({ posts, loading: false, error: null })),

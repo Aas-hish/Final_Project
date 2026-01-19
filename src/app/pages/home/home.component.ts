@@ -18,16 +18,16 @@ import { FeaturesComponent } from '../features/features.component';
           <main class="mt-10 mx-auto max-w-7xl px-4 sm:mt-12 sm:px-6 md:mt-16 lg:mt-20 lg:px-8 xl:mt-28">
             <div class="sm:text-center lg:text-left">
               <h1 class="text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl">
-                <span class="block xl:inline">Data needed to</span>
-                <span class="block text-primary xl:inline"> power your future</span>
+                <span class="block xl:inline">Master Modern</span>
+                <span class="block text-primary xl:inline"> Web Development</span>
               </h1>
               <p class="mt-3 text-base text-gray-500 dark:text-gray-400 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-                A modern Angular SSR starter template featuring server-side rendering, Express backend, and Tailwind CSS styling. Built for performance and SEO.
+                Level up your coding skills with deep dives into React, Next.js, Angular, and real-world projects. From stunning UI designs to scalable backend architecture—build faster and better.
               </p>
               <div class="mt-5 sm:mt-8 sm:flex sm:justify-center lg:justify-start">
                 <div class="rounded-md shadow">
                   <a routerLink="/blog" class="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-blue-700 md:py-4 md:text-lg transition-colors">
-                    Get Started with Blog
+                    Explore Tutorials
                   </a>
                 </div>
               </div>
@@ -50,9 +50,9 @@ export class HomeComponent {
 
   ngOnInit(): void {
     this.seoService.setSEOData({
-      title: 'Home',
-      description: 'A modern Angular SSR starter template featuring server-side rendering, Express backend, and Tailwind CSS styling.',
-      keywords: 'Angular, SSR, Universal, Tailwind CSS, Starter'
+      title: 'DevPulse - Master Modern Web Development',
+      description: 'Tutorials and guides on React, Next.js, Angular, and web development projects. Build real-world applications with expert insights.',
+      keywords: 'Web Development, React, Next.js, Angular, Coding Tutorials, Programming'
     });
   }
 }
