@@ -1,7 +1,7 @@
 import { Injectable, inject, makeStateKey, TransferState, PLATFORM_ID } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformServer } from '@angular/common';
-import { Observable, of, tap, map } from 'rxjs'; // Removed unused imports
+import { Observable, of, tap, map, forkJoin } from 'rxjs';
 
 import { BlogPost } from '../models/blog-post';
 
@@ -12,8 +12,9 @@ export class BlogService {
   private platformId = inject(PLATFORM_ID);
 
   private readonly POSTS_KEY = makeStateKey<BlogPost[]>('BLOG_POSTS');
-  // Fetch top Angular articles from Dev.to
-  private readonly API_URL = 'https://dev.to/api/articles?tag=angular&top=25';
+  
+  // Define tags to fetch
+  private readonly TAGS = ['angular', 'react', 'nextjs', 'webdev', 'javascript', 'typescript'];
 
   getPosts(): Observable<BlogPost[]> {
     if (this.transferState.hasKey(this.POSTS_KEY)) {
@@ -21,8 +22,27 @@ export class BlogService {
       return of(posts);
     }
 
-    return this.http.get<any[]>(this.API_URL).pipe(
-      map(apiPosts => apiPosts.slice(0, 25).map(post => this.mapToBlogPost(post))),
+    // Create an array of observables for each tag
+    const requests = this.TAGS.map(tag => 
+      this.http.get<any[]>(`https://dev.to/api/articles?tag=${tag}&top=10`)
+    );
+
+    return forkJoin(requests).pipe(
+      map(responses => {
+        // Flatten the array of arrays
+        const allPosts = responses.flat();
+        
+        // Remove duplicates based on ID
+        const uniqueSubmissions = new Map();
+        allPosts.forEach(post => uniqueSubmissions.set(post.id, post));
+        const uniquePosts = Array.from(uniqueSubmissions.values());
+
+        // Shuffle the posts to mix categories
+        return uniquePosts
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 30) // Limit total posts
+          .map(post => this.mapToBlogPost(post));
+      }),
       tap(posts => {
         if (isPlatformServer(this.platformId)) {
           this.transferState.set(this.POSTS_KEY, posts);
@@ -59,6 +79,7 @@ export class BlogService {
     return {
       id: apiPost.id,
       title: apiPost.title,
+      description: apiPost.description || 'No description available.',
       // Prefer body_html (full content) > body_markdown > description > fallback
       // Note: Detail API returns body_html. List API returns description.
       body: apiPost.body_html || apiPost.description || 'No content available.',
